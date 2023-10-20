@@ -11,7 +11,8 @@ function AddCard() {
         front: "",
         back: "",
     };
-    const [formData, setFormData] = useState({ ...initialFormState });
+
+    const [formData, setFormData] = useState({ initialFormState });
 
     const { deckId } = useParams();
     const [deck, setDeck] = useState(null);
@@ -39,7 +40,6 @@ function AddCard() {
         };
     }, [deckId]);
 
-
     const handleChange = ({ target }) => {
         setFormData({
           ...formData,
@@ -49,7 +49,7 @@ function AddCard() {
 
     const handleSubmit = async (updatedData) => {
         await createCard(deckId, updatedData);
-        history.push(`/decks/${deckId}`);
+        setFormData(initialFormState)
     };
     
     const handleCancel = () => {
@@ -76,12 +76,13 @@ function AddCard() {
             </nav>
             <h1>{`${deck.name}: Add Card`}</h1>
             <CardForm 
-                initialData={formData}
+                formData={formData}
                 handleSubmit={handleSubmit}
                 handleCancel={handleCancel}
+                handleChange={handleChange}
+                formMode={'addCard'}
             />
         </div>
-
     )
 }
 

@@ -1,24 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 
-function CardForm({ initialData, handleSubmit, handleCancel }) {
-    const history = useHistory();
-    const [formData, setFormData] = useState(initialData);
-    
-    useEffect(() => {
-        setFormData(initialData);
-    }, [initialData]);
-
-    const handleChange = ({ target }) => {
-      setFormData({
-        ...formData,
-        [target.name]: target.value,
-      });
-    };
-  
+function CardForm({ formData, handleSubmit, handleCancel, handleChange, formMode}) {
     return (
-        <form onSubmit={(e) => {
-            e.preventDefault();
+        <form onSubmit={(event) => {
+            event.preventDefault();
             handleSubmit(formData);
         }}>        
         <div className="form-group">
@@ -46,8 +31,17 @@ function CardForm({ initialData, handleSubmit, handleCancel }) {
             required
           />
         </div>
-        <button type="button" className="btn btn-secondary mr-2" onClick={handleCancel}>Cancel</button>
-        <button type="submit" className="btn btn-primary">Submit</button>
+        {formMode === "addCard" ? (
+            <>
+                <button type="button" className="btn btn-secondary mr-2" onClick={handleCancel}>Done</button>
+                <button type="submit" className="btn btn-primary">Save</button>
+            </>
+        ) : (
+            <>
+                <button type="button" className="btn btn-secondary mr-2" onClick={handleCancel}>Cancel</button>
+                <button type="submit" className="btn btn-primary">Submit</button>
+            </>
+        )}
       </form>
     );
   }

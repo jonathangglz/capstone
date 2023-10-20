@@ -13,10 +13,19 @@ function EditCard() {
         back: "",
         id: "",
     };
+
     const [formData, setFormData] = useState({ ...initialFormState });
 
     const { deckId, cardId } = useParams();
     const [deck, setDeck] = useState(null);
+
+        
+    const handleChange = ({ target }) => {
+        setFormData({
+          ...formData,
+          [target.name]: target.value,
+        });
+    };
 
     useEffect(() => {
         // Initialize an AbortController to control fetch requests. 
@@ -80,9 +89,11 @@ function EditCard() {
             </nav>
             <h1>Edit Card</h1>
             <CardForm 
-                initialData={formData}
+                formData={formData}
                 handleSubmit={handleSubmit}
                 handleCancel={handleCancel}
+                handleChange={handleChange}
+                formMode={'editCard'}
             />
         </div>
     )
